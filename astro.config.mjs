@@ -6,6 +6,8 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://mgc90.github.io',
+  base: '/pulidos-pastore/',
   vite: {
     plugins: [tailwindcss()]
   },
