@@ -36,7 +36,8 @@ La solución más simple suele ser la correcta.
 
 La página principal tendrá un Hero compuesto por:
 
-- hasta 3 videos;
+- videos e imágenes mezcladas;
+- con animaciones fade in fade out;
 - reproducción automática;
 - en silencio;
 - en bucle;

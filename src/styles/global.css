@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+	--color-wood-dark: #4a2c17;
+	--color-wood-light: #9c6b3e;
+	--color-marble: #2b2a28;
+	--color-marble-shine: #9a948a;
+}
+
+.text-shadow-brand {
+	text-shadow:
+		1px 1px 0 var(--color-marble),
+		2px 2px 0 var(--color-wood-dark),
+		0 3px 10px color-mix(in srgb, var(--color-marble) 80%, transparent),
+		0 5px 20px color-mix(in srgb, var(--color-wood-light) 70%, transparent);
+}

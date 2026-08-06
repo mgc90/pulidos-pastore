@@ -1,0 +1,55 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<section id="contacto" class="relative w-full overflow-hidden bg-marble">
+	<img
+		src="/imgs/back1.jpg"
+		alt=""
+		loading="lazy"
+		decoding="async"
+		class="absolute inset-0 h-full w-full object-cover"
+	/>
+	<div class="absolute inset-0 bg-black/50"></div>
+
+	<div class="relative z-10 flex flex-col items-center px-4 py-20 text-center">
+		<img
+			src="/imgs/logo.jpg"
+			alt="Logo Pulidos Pastore"
+			loading="lazy"
+			decoding="async"
+			class="logo-shadow w-44 md:w-56"
+		/>
+
+		<h2 class="contact-title text-shadow-brand mt-8 text-3xl font-semibold tracking-wide text-wood-light md:text-5xl">
+			Contacto
+		</h2>
+
+		<ul class="contact-list text-shadow-brand mt-8 space-y-4 text-xl text-marble-shine md:text-2xl">
+			<li class="flex items-center justify-center gap-3">
+				<Icon name="simple-icons:whatsapp" class="h-7 w-7 text-wood-light" />
+				<span>+54 11 1234-5678</span>
+			</li>
+			<li class="flex items-center justify-center gap-3">
+				<Icon name="simple-icons:instagram" class="h-7 w-7 text-wood-light" />
+				<span>@usuarioInstagram</span>
+			</li>
+			<li class="flex items-center justify-center gap-3">
+				<Icon name="simple-icons:checkmk" class="h-7 w-7 text-wood-light" />
+				<span>Presupuesto sin cargo</span>
+			</li>
+			<li class="flex items-center justify-center gap-3">
+				<Icon name="simple-icons:googlemaps" class="h-7 w-7 text-wood-light" />
+				<span>Zona AMBA</span>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<style>
+	.logo-shadow {
+		filter:
+			drop-shadow(0 4px 6px var(--color-wood-dark))
+			drop-shadow(0 8px 24px var(--color-marble));
+	}
+</style>
