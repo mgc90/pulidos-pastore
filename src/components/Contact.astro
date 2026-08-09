@@ -21,28 +21,55 @@ import { Icon } from 'astro-icon/components';
 			class="logo-shadow w-44 md:w-56 bg-wood-dark/10"
 		/>
 
+		
+
 		<h2 class="contact-title text-shadow-brand mt-8 text-3xl font-semibold tracking-wide text-zinc-300 md:text-5xl">
 			Contacto
 		</h2>
 
 		<ul class="contact-list text-shadow-brand mt-8 space-y-4 text-xl text-zinc-300 md:text-2xl">
 			<li class="flex items-center justify-center gap-3">
-				<Icon name="simple-icons:whatsapp" class="h-7 w-7 text-wood-light" />
-				<span>+54 11 4970 0853</span>
+				<Icon name="simple-icons:whatsapp" class="h-7 w-7 text-green-400" />
+				<a
+					href="https://wa.link/h2a9hh"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-block transition-transform hover:scale-110"
+				>
+					+54 11 4970 0853
+				</a>
 			</li>
 			<li class="flex items-center justify-center gap-3">
-				<Icon name="simple-icons:instagram" class="h-7 w-7 text-wood-light" />
-				<span>@pulido.de.pisos.pastore</span>
+				<Icon name="simple-icons:instagram" class="h-7 w-7 text-purple-700 drop-shadow-[0_0_6px_white]" />
+				<a
+					href="https://instagram.com/pulido.de.pisos.pastore"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-block transition-transform hover:scale-110"
+				>
+					@pulido.de.pisos.pastore
+				</a>
 			</li>
 			<li class="flex items-center justify-center gap-3">
-				<Icon name="simple-icons:openmediavault" class="h-7 w-7 text-wood-light" />
+				<Icon name="simple-icons:openmediavault" class="h-7 w-7 text-white" />
 				<span>Presupuesto sin cargo</span>
 			</li>
 			<li class="flex items-center justify-center gap-3">
-				<Icon name="simple-icons:googlemaps" class="h-7 w-7 text-wood-light" />
+				<Icon name="simple-icons:googlemaps" class="h-7 w-7 text-white" />
 				<span>Zona AMBA</span>
 			</li>
 		</ul>
+
+		<h2 class="contact-title text-shadow-brand m-8 text-3xl font-semibold tracking-wide text-zinc-300 md:text-5xl">
+			Escaneá el QR
+		</h2>
+		<img
+			src={`${import.meta.env.BASE_URL}imgs/qr.png`}
+			alt="QR Pulidos Pastore"
+			loading="lazy"
+			decoding="async"
+			class="logo-shadow w-44 md:w-56 bg-wood-dark/10"
+		/>
 	</div>
 </section>
 
