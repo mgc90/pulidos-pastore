@@ -1,61 +1,50 @@
 ---
-const slides = [
-	{
-		type: 'video',
-		src: `${import.meta.env.BASE_URL}video/istockphoto-2219920322-640_adpp_is.mp4`,
-		title: 'Reviví tus pisos',
-		subtitle: 'Tratamiento de alta calidad',
-	},
-	{
-		type: 'image',
-		src: `${import.meta.env.BASE_URL}imgs/obra1.avif`,
-		title: 'Plastificado resistente',
-		subtitle: 'Múltiples capas de alto tránsito',
-	},
-	{
-		type: 'image',
-		src: `${import.meta.env.BASE_URL}imgs/obra2.jpg`,
-		title: 'Parquet, Deck, Mosaico',
-		subtitle: 'Laca, HidroLaca, Termovitrificado',
-	},
-	{
-		type: 'image',
-		src: `${import.meta.env.BASE_URL}imgs/obra3.jpg`,
-		title: 'Pulidos Pastore',
-		subtitle: 'Una familia del rubro',
-	},
+import { Picture } from 'astro:assets';
+import obra1 from '../assets/obra1.jpg';
+import obra2 from '../assets/obra2.jpg';
+import obra3 from '../assets/obra3.jpg';
+
+const videoSrc = `${import.meta.env.BASE_URL}video/istockphoto-2219920322-640_adpp_is.mp4`;
+
+const texts = [
+	{ title: 'Reviví tus pisos', subtitle: 'Tratamiento de alta calidad' },
+	{ title: 'Plastificado resistente', subtitle: 'Múltiples capas de alto tránsito' },
+	{ title: 'Parquet, Deck, Mosaico', subtitle: 'Laca, HidroLaca, Termovitrificado' },
+	{ title: 'Pulidos Pastore', subtitle: 'Una familia del rubro' },
 ];
+
+const images = [obra1, obra2, obra3];
 ---
 
 <section
 	id="hero"
 	class="relative h-[70vh] w-full overflow-hidden bg-marble"
-	data-slides={JSON.stringify(slides)}
+	data-texts={JSON.stringify(texts)}
 >
 	<div class="absolute inset-0">
+		<div class="hero-slide active" id="hero-video">
+			<video
+				class="h-full w-full object-cover"
+				data-src={videoSrc}
+				muted
+				loop
+				playsinline
+				preload="none"
+			/>
+		</div>
 		{
-			slides.map((slide, i) =>
-				slide.type === 'video' ? (
-					<video
-						class:list={['hero-slide', { active: i === 0 }]}
-						src={slide.src}
-						autoplay
-						muted
-						loop
-						playsinline
-						preload="metadata"
-					/>
-				) : (
-					<img
-						class:list={['hero-slide', { active: i === 0 }]}
-						src={slide.src}
+			images.map((img) => (
+				<div class="hero-slide">
+					<Picture
+						src={img}
 						alt=""
-						loading={i === 0 ? 'eager' : 'lazy'}
-						fetchpriority={i === 0 ? 'high' : undefined}
-						decoding="async"
+						class="h-full w-full object-cover"
+						pictureAttributes={{ class: 'block h-full' }}
+						widths={[640, 1024, 1440, 1920, 2560]}
+						sizes="100vw"
 					/>
-				),
-			)
+				</div>
+			))
 		}
 	</div>
 
@@ -63,10 +52,10 @@ const slides = [
 
 	<div class="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
 		<h1 id="hero-title" class="hero-text text-shadow-brand text-4xl font-semibold tracking-wide text-wood-light md:text-6xl">
-			{slides[0].title}
+			{texts[0].title}
 		</h1>
 		<p id="hero-subtitle" class="hero-text text-shadow-brand mt-4 text-lg text-zinc-300 md:text-3xl">
-			{slides[0].subtitle}
+			{texts[0].subtitle}
 		</p>
 	</div>
 
@@ -78,15 +67,17 @@ const slides = [
 	.hero-slide {
 		position: absolute;
 		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
 		opacity: 0;
 		transition: opacity 1s ease-in-out;
 	}
 
 	.hero-slide.active {
 		opacity: 1;
+	}
+
+	/* El video entra con fade-in recién cuando puede reproducir. */
+	#hero-video:not(.loaded) {
+		opacity: 0;
 	}
 
 	.hero-text {
@@ -100,15 +91,34 @@ const slides = [
 
 <script>
 	const hero = document.getElementById('hero');
-	const slides = JSON.parse(hero?.dataset.slides ?? '[]') as {
-		type: string;
-		src: string;
+	const texts = JSON.parse(hero?.dataset.texts ?? '[]') as {
 		title: string;
 		subtitle: string;
 	}[];
 	const titleEl = document.getElementById('hero-title');
 	const subtitleEl = document.getElementById('hero-subtitle');
 	const media = Array.from(document.querySelectorAll('.hero-slide'));
+
+	// El video pesa ~700 KB: no se descarga hasta que la página terminó de cargar.
+	const videoSlide = document.getElementById('hero-video');
+	const video = videoSlide?.querySelector('video');
+	const videoSrc = video?.dataset.src;
+
+	if (videoSlide && video && videoSrc) {
+		window.addEventListener(
+			'load',
+			() => {
+				video.addEventListener(
+					'canplay',
+					() => videoSlide.classList.add('loaded'),
+					{ once: true },
+				);
+				video.src = videoSrc;
+				video.play();
+			},
+			{ once: true },
+		);
+	}
 
 	let current = 0;
 	let textTimeout: number | undefined;
@@ -118,8 +128,8 @@ const slides = [
 		subtitleEl?.classList.add('hero-text-fade');
 		window.clearTimeout(textTimeout);
 		textTimeout = window.setTimeout(() => {
-			if (titleEl) titleEl.textContent = slides[index].title;
-			if (subtitleEl) subtitleEl.textContent = slides[index].subtitle;
+			if (titleEl) titleEl.textContent = texts[index].title;
+			if (subtitleEl) subtitleEl.textContent = texts[index].subtitle;
 			titleEl?.classList.remove('hero-text-fade');
 			subtitleEl?.classList.remove('hero-text-fade');
 		}, 500);
@@ -127,7 +137,7 @@ const slides = [
 
 	setInterval(() => {
 		media[current]?.classList.remove('active');
-		current = (current + 1) % slides.length;
+		current = (current + 1) % texts.length;
 		media[current]?.classList.add('active');
 		showText(current);
 	}, 7000);
